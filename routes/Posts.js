@@ -1,15 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const { Posts } = require("../models");
+const { Posts, Likes } = require("../models");
 const { validateToken } = require("../middleware/AuthMiddleWare");
 
 router.get("/", validateToken, async (req, res) => {
-  const listOfPosts = await Posts.findAll();
+  const listOfPosts = await Posts.findAll({ include: [Likes] });
   res.json(listOfPosts);
 });
 
 router.post("/", validateToken, async (req, res) => {
   const post = req.body;
+  const userId = req.user.id;
+  post.UserId = userId;
   await Posts.create(post);
   res.json({ message: "Post Successfully Created", post: post });
 });
@@ -27,5 +29,31 @@ router.delete("/:id", validateToken, async (req, res) => {
 
   res.json({ message: "Post Deleted Successfully" });
 });
+
+// router.get("/like/:id", validateToken, async (req, res) => {
+//   const id = req.params.id;
+
+//   const post = await Posts.findByPk(id);
+//   if (post.isLike) {
+//     post.set({
+//       isLike: false,
+//       likeCount: post.likeCount - 1,
+//     });
+//     await post.save();
+//     res.json({
+//       message: "Post Like set to false",
+//     });
+//   } else {
+//     post.set({
+//       isLike: true,
+//       likeCount: post.likeCount + 1,
+//     });
+//     await post.save();
+//     res.json({
+//       message: "Post Like set to true",
+//     });
+//   }
+//   return;
+// });
 
 module.exports = router;
