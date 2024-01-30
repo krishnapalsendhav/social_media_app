@@ -1,8 +1,15 @@
 const express = require("express");
+const { useTreblle } = require("treblle");
 const app = express();
 const db = require("./models");
 
 app.use(express.json());
+
+//Treblle
+useTreblle(app, {
+  apiKey: "EJid56o8q9OxbUD13Smzge0Wga8wFfWm",
+  projectId: "na906ECR4fZbbf7d",
+});
 
 //Routers
 const postRouter = require("./routes/Posts");

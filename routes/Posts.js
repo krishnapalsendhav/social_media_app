@@ -30,30 +30,4 @@ router.delete("/:id", validateToken, async (req, res) => {
   res.json({ message: "Post Deleted Successfully" });
 });
 
-// router.get("/like/:id", validateToken, async (req, res) => {
-//   const id = req.params.id;
-
-//   const post = await Posts.findByPk(id);
-//   if (post.isLike) {
-//     post.set({
-//       isLike: false,
-//       likeCount: post.likeCount - 1,
-//     });
-//     await post.save();
-//     res.json({
-//       message: "Post Like set to false",
-//     });
-//   } else {
-//     post.set({
-//       isLike: true,
-//       likeCount: post.likeCount + 1,
-//     });
-//     await post.save();
-//     res.json({
-//       message: "Post Like set to true",
-//     });
-//   }
-//   return;
-// });
-
 module.exports = router;
